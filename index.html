@@ -18,7 +18,7 @@
 </body>
 </html>
  -->
-
+<!-- 
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -633,5 +633,410 @@
       }
     });
   </script>
+</body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyrebro SOC Platform Implementation Timeline - Pinnacle Thrive Solutions</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #1a3056 0%, #2a4373 100%);
+            color: white;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 28px;
+        }
+        
+        .header p {
+            margin: 0;
+            font-weight: 300;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .timeline-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a3056;
+        }
+        
+        .badge {
+            background-color: rgba(26, 48, 86, 0.08);
+            color: #1a3056;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+        
+        .note {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #FFC107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #795548;
+        }
+        
+        .note strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .toggle-container {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 26px;
+            margin-right: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #1a3056;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .toggle-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer a {
+            color: #1a3056;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 20px 0;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PINNACLE THRIVE SOLUTIONS INC.</h1>
+            <p>Cyrebro SOC Platform Implementation Timeline</p>
+        </div>
+        
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <div class="timeline-title">Implementation Timeline</div>
+                <span class="badge">PRELIMINARY</span>
+            </div>
+            
+            <div class="note">
+                <strong>Note:</strong> This is a preliminary implementation timeline. The final schedule will be developed in coordination with Queen Anne's County IT staff following project award and initial planning discussions.
+            </div>
+            
+            <div class="controls">
+                <div class="toggle-container">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="supportToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">Show Support & Maintenance Phase</span>
+                </div>
+            </div>
+            
+            <div id="timeline" style="height: 500px;"></div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Pinnacle Thrive Solutions Inc. | <a href="mailto:info@ptsolutionsinc.net">info@ptsolutionsinc.net</a> | (240) 838-8789</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define the timeline data
+            const initialData = [
+                {Task: "Project Initiation & Planning", Start: '2025-05-20', Finish: '2025-06-02', Phase: 'Planning', 
+                 Description: "Kickoff meeting, requirements gathering, and deployment strategy"},
+                {Task: "Checkpoint Firewall Integration", Start: '2025-06-03', Finish: '2025-06-10', Phase: 'Integration',
+                 Description: "Configure log collection and alerts from firewalls to Cyrebro"},
+                {Task: "CrowdStrike Falcon Integration", Start: '2025-06-09', Finish: '2025-06-16', Phase: 'Integration',
+                 Description: "Connect CrowdStrike alerts to Cyrebro platform"},
+                {Task: "Office 365 Integration", Start: '2025-06-15', Finish: '2025-06-22', Phase: 'Integration',
+                 Description: "Configure Entra ID & Outlook monitoring and alerts"},
+                {Task: "Windows Security Log Integration", Start: '2025-06-20', Finish: '2025-06-30', Phase: 'Integration',
+                 Description: "Set up log forwarding for 1000 clients"},
+                {Task: "Testing & Verification", Start: '2025-07-01', Finish: '2025-07-08', Phase: 'Testing',
+                 Description: "End-to-end validation of all integrations and alerts"},
+                {Task: "Training & Handover", Start: '2025-07-09', Finish: '2025-07-15', Phase: 'Training',
+                 Description: "Train-the-trainer session for County IT personnel"}
+            ];
+            
+            const supportData = [
+                {Task: "Support & Maintenance", Start: '2025-07-16', Finish: '2027-07-15', Phase: 'Support',
+                 Description: "Professional services, support, and platform updates (120 hours annually)"}
+            ];
+            
+            // Define the color map for phases
+            const colorMap = {
+                'Planning': '#1a3056',  // Pinnacle Thrive Blue
+                'Integration': '#4caf50',  // Green
+                'Testing': '#ff9800',  // Orange
+                'Training': '#e91e63',  // Pink
+                'Support': '#9c27b0'  // Purple
+            };
+            
+            // Function to create and update the timeline
+            function createTimeline(includeSupport) {
+                let data = [...initialData];
+                
+                if (includeSupport) {
+                    data = [...data, ...supportData];
+                }
+                
+                const hoverTemplate = 
+                    '<b>%{customdata}</b><br>' +
+                    'Duration: %{x[0]|%b %d, %Y} to %{x[1]|%b %d, %Y}<br>' +
+                    '<i>%{text}</i>';
+                
+                const traces = [];
+                
+                // Group data by Phase
+                const phases = [...new Set(data.map(item => item.Phase))];
+                
+                phases.forEach(phase => {
+                    const phaseItems = data.filter(item => item.Phase === phase);
+                    
+                    traces.push({
+                        x: phaseItems.map(item => [item.Start, item.Finish]),
+                        y: phaseItems.map(item => item.Task),
+                        customdata: phaseItems.map(item => item.Task),
+                        text: phaseItems.map(item => item.Description),
+                        mode: 'lines',
+                        type: 'scatter',
+                        line: {
+                            color: colorMap[phase],
+                            width: 20
+                        },
+                        name: phase,
+                        hovertemplate: hoverTemplate,
+                        hoverlabel: {
+                            bgcolor: '#fff',
+                            bordercolor: colorMap[phase],
+                            font: {family: 'Montserrat, sans-serif', size: 13}
+                        }
+                    });
+                });
+                
+                const layout = {
+                    title: '',
+                    autosize: true,
+                    height: 500,
+                    font: {
+                        family: 'Montserrat, sans-serif',
+                        size: 13,
+                        color: '#333'
+                    },
+                    xaxis: {
+                        type: 'date',
+                        range: includeSupport ? 
+                               [new Date('2025-05-15'), new Date('2027-07-31')] : 
+                               [new Date('2025-05-15'), new Date('2025-08-15')],
+                        tickfont: {
+                            family: 'Montserrat, sans-serif',
+                            size: 12,
+                            color: '#666'
+                        },
+                        gridcolor: '#f1f1f1',
+                        linecolor: '#ddd'
+                    },
+                    yaxis: {
+                        autorange: "reversed",
+                        tickfont: {
+                            family: 'Montserrat, sans-serif',
+                            size: 13,
+                            color: '#333'
+                        },
+                        gridcolor: '#f1f1f1',
+                        linecolor: '#ddd'
+                    },
+                    plot_bgcolor: '#fff',
+                    paper_bgcolor: '#fff',
+                    hovermode: 'closest',
+                    legend: {
+                        title: {
+                            text: 'Project Phase',
+                            font: {
+                                family: 'Montserrat, sans-serif',
+                                size: 14,
+                                color: '#333'
+                            }
+                        },
+                        font: {
+                            family: 'Montserrat, sans-serif',
+                            size: 12,
+                            color: '#666'
+                        },
+                        orientation: 'h',
+                        y: -0.2
+                    },
+                    margin: {
+                        l: 150,
+                        r: 30,
+                        b: 100,
+                        t: 30,
+                        pad: 5
+                    },
+                    shapes: [{
+                        type: 'rect',
+                        xref: 'paper',
+                        yref: 'paper',
+                        x0: 0.95,
+                        y0: 0.95,
+                        x1: 1,
+                        y1: 1,
+                        fillcolor: '#fff',
+                        opacity: 1,
+                        line: {
+                            width: 0
+                        }
+                    }],
+                    images: [{
+                        source: 'https://ptsolutionsinc.net/wp-content/uploads/2023/03/PTS-Logo-White-Background.png',
+                        xref: 'paper',
+                        yref: 'paper',
+                        x: 1,
+                        y: 1,
+                        sizex: 0.12,
+                        sizey: 0.12,
+                        xanchor: 'right',
+                        yanchor: 'top',
+                        opacity: 0.9,
+                        layer: 'above'
+                    }]
+                };
+                
+                const config = {
+                    responsive: true,
+                    displayModeBar: false
+                };
+                
+                Plotly.newPlot('timeline', traces, layout, config);
+            }
+            
+            // Initial timeline creation
+            createTimeline(false);
+            
+            // Toggle event handler
+            document.getElementById('supportToggle').addEventListener('change', function() {
+                createTimeline(this.checked);
+            });
+        });
+    </script>
 </body>
 </html>
