@@ -636,13 +636,12 @@
 </body>
 </html>
  -->
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyrebro SOC Platform Implementation Timeline - Pinnacle Thrive Solutions</title>
+    <title>Cyrebro SOC Implementation Timeline - Pinnacle Thrive Solutions</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -668,8 +667,6 @@
             margin-bottom: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
         }
         
         .header h1 {
@@ -806,20 +803,6 @@
         .footer a:hover {
             text-decoration: underline;
         }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 20px 0;
-            }
-            
-            .header h1 {
-                font-size: 22px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -859,174 +842,175 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Define the timeline data
-            const initialData = [
-                {Task: "Project Initiation & Planning", Start: '2025-05-20', Finish: '2025-06-02', Phase: 'Planning', 
-                 Description: "Kickoff meeting, requirements gathering, and deployment strategy"},
-                {Task: "Checkpoint Firewall Integration", Start: '2025-06-03', Finish: '2025-06-10', Phase: 'Integration',
-                 Description: "Configure log collection and alerts from firewalls to Cyrebro"},
-                {Task: "CrowdStrike Falcon Integration", Start: '2025-06-09', Finish: '2025-06-16', Phase: 'Integration',
-                 Description: "Connect CrowdStrike alerts to Cyrebro platform"},
-                {Task: "Office 365 Integration", Start: '2025-06-15', Finish: '2025-06-22', Phase: 'Integration',
-                 Description: "Configure Entra ID & Outlook monitoring and alerts"},
-                {Task: "Windows Security Log Integration", Start: '2025-06-20', Finish: '2025-06-30', Phase: 'Integration',
-                 Description: "Set up log forwarding for 1000 clients"},
-                {Task: "Testing & Verification", Start: '2025-07-01', Finish: '2025-07-08', Phase: 'Testing',
-                 Description: "End-to-end validation of all integrations and alerts"},
-                {Task: "Training & Handover", Start: '2025-07-09', Finish: '2025-07-15', Phase: 'Training',
-                 Description: "Train-the-trainer session for County IT personnel"}
+            // Define tasks and their properties
+            const tasks = [
+                {
+                    task: "Project Initiation & Planning",
+                    start: new Date("2025-05-20").getTime(),
+                    end: new Date("2025-06-02").getTime(),
+                    phase: "Planning"
+                },
+                {
+                    task: "Checkpoint Firewall Integration",
+                    start: new Date("2025-06-03").getTime(),
+                    end: new Date("2025-06-10").getTime(),
+                    phase: "Integration"
+                },
+                {
+                    task: "CrowdStrike Falcon Integration",
+                    start: new Date("2025-06-09").getTime(),
+                    end: new Date("2025-06-16").getTime(),
+                    phase: "Integration"
+                },
+                {
+                    task: "Office 365 Integration",
+                    start: new Date("2025-06-15").getTime(),
+                    end: new Date("2025-06-22").getTime(),
+                    phase: "Integration"
+                },
+                {
+                    task: "Windows Security Log Integration",
+                    start: new Date("2025-06-20").getTime(),
+                    end: new Date("2025-06-30").getTime(),
+                    phase: "Integration"
+                },
+                {
+                    task: "Testing & Verification",
+                    start: new Date("2025-07-01").getTime(),
+                    end: new Date("2025-07-08").getTime(),
+                    phase: "Testing"
+                },
+                {
+                    task: "Training & Handover",
+                    start: new Date("2025-07-09").getTime(),
+                    end: new Date("2025-07-15").getTime(),
+                    phase: "Training"
+                },
+                {
+                    task: "Support & Maintenance",
+                    start: new Date("2025-07-16").getTime(),
+                    end: new Date("2027-07-15").getTime(),
+                    phase: "Support"
+                }
             ];
-            
-            const supportData = [
-                {Task: "Support & Maintenance", Start: '2025-07-16', Finish: '2027-07-15', Phase: 'Support',
-                 Description: "Professional services, support, and platform updates (120 hours annually)"}
-            ];
-            
-            // Define the color map for phases
-            const colorMap = {
-                'Planning': '#1a3056',  // Pinnacle Thrive Blue
-                'Integration': '#4caf50',  // Green
-                'Testing': '#ff9800',  // Orange
-                'Training': '#e91e63',  // Pink
-                'Support': '#9c27b0'  // Purple
+
+            // Color mapping for each phase
+            const colors = {
+                "Planning": "#1a3056", // dark blue
+                "Integration": "#4caf50", // green
+                "Testing": "#ff9800", // orange
+                "Training": "#e91e63", // pink
+                "Support": "#9c27b0" // purple
             };
             
-            // Function to create and update the timeline
-            function createTimeline(includeSupport) {
-                let data = [...initialData];
+            // Create and render the timeline
+            function createTimeline(showSupport) {
+                // Filter tasks based on support toggle
+                const filteredTasks = showSupport ? 
+                    tasks : 
+                    tasks.filter(task => task.phase !== "Support");
                 
-                if (includeSupport) {
-                    data = [...data, ...supportData];
-                }
+                // Prepare data structure for Plotly
+                const taskNames = filteredTasks.map(task => task.task);
+                const startDates = filteredTasks.map(task => new Date(task.start));
+                const endDates = filteredTasks.map(task => new Date(task.end));
+                const durations = filteredTasks.map(task => task.end - task.start);
+                const colors_mapped = filteredTasks.map(task => colors[task.phase]);
+                const phases = filteredTasks.map(task => task.phase);
                 
-                const hoverTemplate = 
-                    '<b>%{customdata}</b><br>' +
-                    'Duration: %{x[0]|%b %d, %Y} to %{x[1]|%b %d, %Y}<br>' +
-                    '<i>%{text}</i>';
-                
+                // Create traces for each task
                 const traces = [];
                 
-                // Group data by Phase
-                const phases = [...new Set(data.map(item => item.Phase))];
-                
-                phases.forEach(phase => {
-                    const phaseItems = data.filter(item => item.Phase === phase);
-                    
+                for (let i = 0; i < filteredTasks.length; i++) {
                     traces.push({
-                        x: phaseItems.map(item => [item.Start, item.Finish]),
-                        y: phaseItems.map(item => item.Task),
-                        customdata: phaseItems.map(item => item.Task),
-                        text: phaseItems.map(item => item.Description),
-                        mode: 'lines',
-                        type: 'scatter',
-                        line: {
-                            color: colorMap[phase],
-                            width: 20
+                        x: [durations[i]], // Duration in milliseconds
+                        y: [taskNames[i]],
+                        name: phases[i],
+                        orientation: 'h',
+                        marker: {
+                            color: colors_mapped[i],
+                            line: {
+                                color: 'rgba(0,0,0,0.2)',
+                                width: 1
+                            }
                         },
+                        base: startDates[i],
+                        type: 'bar',
+                        hoverinfo: 'text',
+                        hovertext: `<b>${taskNames[i]}</b><br>Start: ${startDates[i].toLocaleDateString()}<br>End: ${endDates[i].toLocaleDateString()}<br>Phase: ${phases[i]}`,
+                        showlegend: false
+                    });
+                }
+                
+                // Add a trace for the legend
+                const uniquePhases = [...new Set(phases)];
+                uniquePhases.forEach(phase => {
+                    traces.push({
+                        x: [0],
+                        y: [null],
                         name: phase,
-                        hovertemplate: hoverTemplate,
-                        hoverlabel: {
-                            bgcolor: '#fff',
-                            bordercolor: colorMap[phase],
-                            font: {family: 'Montserrat, sans-serif', size: 13}
-                        }
+                        marker: {
+                            color: colors[phase]
+                        },
+                        type: 'bar',
+                        hoverinfo: 'none',
+                        showlegend: true
                     });
                 });
                 
+                // Calculate date range based on filtered tasks
+                const minDate = new Date(Math.min(...startDates) - 7 * 24 * 60 * 60 * 1000); // 1 week before first task
+                const maxDate = new Date(Math.max(...endDates) + 7 * 24 * 60 * 60 * 1000); // 1 week after last task
+                
+                // Define the layout
                 const layout = {
                     title: '',
                     autosize: true,
                     height: 500,
+                    barmode: 'overlay',
+                    bargap: 0.25,
+                    bargroupgap: 0.1,
                     font: {
                         family: 'Montserrat, sans-serif',
-                        size: 13,
-                        color: '#333'
                     },
                     xaxis: {
+                        showgrid: true,
+                        zeroline: false,
                         type: 'date',
-                        range: includeSupport ? 
-                               [new Date('2025-05-15'), new Date('2027-07-31')] : 
-                               [new Date('2025-05-15'), new Date('2025-08-15')],
-                        tickfont: {
-                            family: 'Montserrat, sans-serif',
-                            size: 12,
-                            color: '#666'
-                        },
-                        gridcolor: '#f1f1f1',
-                        linecolor: '#ddd'
+                        range: [minDate, maxDate],
+                        gridcolor: '#e0e0e0',
+                        linecolor: '#999',
+                        tickangle: -45
                     },
                     yaxis: {
-                        autorange: "reversed",
-                        tickfont: {
-                            family: 'Montserrat, sans-serif',
-                            size: 13,
-                            color: '#333'
-                        },
-                        gridcolor: '#f1f1f1',
-                        linecolor: '#ddd'
+                        showgrid: true,
+                        zeroline: false,
+                        automargin: true,
+                        gridcolor: '#e0e0e0',
+                        linecolor: '#999',
                     },
-                    plot_bgcolor: '#fff',
-                    paper_bgcolor: '#fff',
+                    plot_bgcolor: '#ffffff',
+                    paper_bgcolor: '#ffffff',
                     hovermode: 'closest',
                     legend: {
-                        title: {
-                            text: 'Project Phase',
-                            font: {
-                                family: 'Montserrat, sans-serif',
-                                size: 14,
-                                color: '#333'
-                            }
-                        },
-                        font: {
-                            family: 'Montserrat, sans-serif',
-                            size: 12,
-                            color: '#666'
-                        },
+                        title: { text: 'Project Phase' },
                         orientation: 'h',
-                        y: -0.2
+                        yanchor: 'bottom',
+                        y: -0.2,
+                        xanchor: 'center',
+                        x: 0.5
                     },
                     margin: {
-                        l: 150,
-                        r: 30,
+                        l: 250, // Increased left margin for task names
+                        r: 50,
                         b: 100,
                         t: 30,
-                        pad: 5
+                        pad: 4
                     },
-                    shapes: [{
-                        type: 'rect',
-                        xref: 'paper',
-                        yref: 'paper',
-                        x0: 0.95,
-                        y0: 0.95,
-                        x1: 1,
-                        y1: 1,
-                        fillcolor: '#fff',
-                        opacity: 1,
-                        line: {
-                            width: 0
-                        }
-                    }],
-                    images: [{
-                        source: 'https://ptsolutionsinc.net/wp-content/uploads/2023/03/PTS-Logo-White-Background.png',
-                        xref: 'paper',
-                        yref: 'paper',
-                        x: 1,
-                        y: 1,
-                        sizex: 0.12,
-                        sizey: 0.12,
-                        xanchor: 'right',
-                        yanchor: 'top',
-                        opacity: 0.9,
-                        layer: 'above'
-                    }]
                 };
                 
-                const config = {
-                    responsive: true,
-                    displayModeBar: false
-                };
-                
-                Plotly.newPlot('timeline', traces, layout, config);
+                // Create the plot
+                Plotly.newPlot('timeline', traces, layout, {responsive: true, displayModeBar: false});
             }
             
             // Initial timeline creation
@@ -1040,3 +1024,4 @@
     </script>
 </body>
 </html>
+
